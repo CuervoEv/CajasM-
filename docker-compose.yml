@@ -1,0 +1,20 @@
+services:
+  pdf-a-png:
+    build: .
+    image: pdf-a-png:1.0
+    container_name: pdf-a-png
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      PORT: "8000"
+    mem_limit: 1g
+    # En el VPS, comenta "ports" arriba y descomenta esto
+    # para unirte a la misma red que n8n (ajusta el nombre):
+    # networks:
+    #   - n8n_network
+
+# networks:
+#   n8n_network:
+#     external: true
+#     name: n8n_network

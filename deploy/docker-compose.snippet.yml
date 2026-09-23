@@ -1,0 +1,24 @@
+# Snippet para el admin del VPS.
+# Añadir este servicio al docker-compose de n8n (o un compose hermano)
+# usando la MISMA red que el contenedor n8n.
+
+services:
+  pdf-a-png:
+    image: pdf-a-png:1.0
+    container_name: pdf-a-png
+    restart: unless-stopped
+    # No hace falta publicar el puerto al host si n8n está en la misma red.
+    # ports:
+    #   - "8000:8000"
+    environment:
+      PORT: "8000"
+    # Ajustar al nombre real de la red de n8n (docker network ls)
+    networks:
+      - n8n_network
+    mem_limit: 1g
+
+networks:
+  n8n_network:
+    external: true
+    # Si la red de n8n tiene otro nombre, cámbialo arriba (ej. n8n_default).
+    name: n8n_network
