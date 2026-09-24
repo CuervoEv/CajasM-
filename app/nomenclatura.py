@@ -1,16 +1,16 @@
 import re
 
-# CAJA MENOR - <PLANTA> - dd-mm-aaaa.pdf
+# CAJA MENOR - <PLANTA> - <CCDC>.pdf
+# CCDC = código alfanumérico de 1 a 6 caracteres
 NOMENCLATURA = re.compile(
-    r"^CAJA MENOR - (.+?) - (\d{2}-\d{2}-\d{4})\.pdf$",
+    r"^CAJA MENOR - (.+?) - ([A-Za-z0-9]{1,6})\.pdf$",
     re.IGNORECASE,
 )
 
 
 def parse_nomenclatura(nombre: str) -> dict | None:
-    """Valida el nombre del PDF. Devuelve planta y fecha, o None si no cumple."""
+    """Valida el nombre del PDF. Devuelve planta y ccdc, o None si no cumple."""
     nombre = nombre.strip()
-    # Quitar ruta si viene incluida
     nombre = nombre.replace("\\", "/").rsplit("/", 1)[-1]
 
     match = NOMENCLATURA.match(nombre)
@@ -20,5 +20,5 @@ def parse_nomenclatura(nombre: str) -> dict | None:
     return {
         "nombre_pdf": nombre,
         "planta": match.group(1).strip(),
-        "fecha": match.group(2),
+        "ccdc": match.group(2),
     }

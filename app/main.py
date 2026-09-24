@@ -33,7 +33,7 @@ async def convert(
             rechazados.append(
                 {
                     "nombre_pdf": nombre,
-                    "motivo": "No cumple nomenclatura: CAJA MENOR - <PLANTA> - dd-mm-aaaa.pdf",
+                    "motivo": "No cumple nomenclatura: CAJA MENOR - <PLANTA> - <CCDC>.pdf (CCDC máx. 6)",
                 }
             )
             await upload.read()
@@ -64,7 +64,7 @@ async def convert(
             {
                 "nombre_pdf": meta["nombre_pdf"],
                 "planta": meta["planta"],
-                "fecha": meta["fecha"],
+                "ccdc": meta["ccdc"],
                 "count": len(imagenes),
                 "imagenes": imagenes,
             }

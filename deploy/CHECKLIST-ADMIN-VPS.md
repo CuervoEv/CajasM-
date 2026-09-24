@@ -64,7 +64,7 @@ Esperado: `{"status":"ok"}`
 
 - Preferible **no** exponer el puerto 8000 al firewall público.
 - Memoria recomendada del contenedor: **≥ 1 GB** (PDFs ~11 MB + rasterización).
-- Nomenclatura de archivos aceptada: `CAJA MENOR - <PLANTA> - dd-mm-aaaa.pdf`
+- Nomenclatura de archivos aceptada: `CAJA MENOR - <PLANTA> - <CCDC>.pdf` (CCDC alfanumérico, máx. 6 caracteres)
 
 ## 7. Actualizar versión
 
