@@ -1,24 +1,32 @@
 import re
+from pathlib import PurePosixPath
 
-# CAJA MENOR - <PLANTA> - <CCDC>.pdf
-# CCDC = código alfanumérico de 1 a 6 caracteres
-NOMENCLATURA = re.compile(
-    r"^CAJA MENOR - (.+?) - ([A-Za-z0-9]{1,6})\.pdf$",
-    re.IGNORECASE,
-)
+# SOPORTE CJM <PLANTA>.pdf — el nombre (sin extensión) debe ir en mayúsculas
+NOMENCLATURA = re.compile(r"^SOPORTE CJM (.+)$")
 
 
 def parse_nomenclatura(nombre: str) -> dict | None:
-    """Valida el nombre del PDF. Devuelve planta y ccdc, o None si no cumple."""
+    """Valida: SOPORTE CJM <PLANTA>.pdf (nombre en mayúsculas)."""
     nombre = nombre.strip()
     nombre = nombre.replace("\\", "/").rsplit("/", 1)[-1]
 
-    match = NOMENCLATURA.match(nombre)
+    path = PurePosixPath(nombre)
+    if path.suffix.lower() != ".pdf":
+        return None
+
+    stem = path.stem
+    if stem != stem.upper():
+        return None
+
+    match = NOMENCLATURA.match(stem)
     if not match:
+        return None
+
+    planta = match.group(1).strip()
+    if not planta:
         return None
 
     return {
         "nombre_pdf": nombre,
-        "planta": match.group(1).strip(),
-        "ccdc": match.group(2),
+        "planta": planta,
     }
